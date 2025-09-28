@@ -44,6 +44,7 @@ return {
 		{ "<leader>/", "<cmd>Telescope live_grep<cr>", desc = "Text Grep (Root Dir)" },
 		{ "<leader>,", "<cmd>Telescope buffers<cr>", desc = "Switch Buffer" },
 		{ "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
+		{ '<leader>f"', "<cmd>Telescope registers<cr>", desc = "Registers" },
 		{ "<leader>gf", "<cmd>Telescope git_files<cr>", desc = "Find Git Files" },
 		{ "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
 		{ "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
