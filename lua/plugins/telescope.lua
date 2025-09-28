@@ -51,6 +51,9 @@ return {
 		{ "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
 		{ "<leader>fd", "<cmd>Telescope diagnostics<cr>", desc = "Workspace Diagnostics" },
 		{ "<leader>fw", "<cmd>Telescope grep_string<cr>", desc = "Find string under cursor in cwd" },
+		{ "<leader>fM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
+		{ "<leader>fj", "<cmd>Telescope jumplist<cr>", desc = "Jumplist" },
+		{ "<leader>fm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
 
 		{
 			"<leader>fc",
