@@ -50,6 +50,7 @@ return {
 		{ "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
 		{ "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
 		{ "<leader>fd", "<cmd>Telescope diagnostics<cr>", desc = "Workspace Diagnostics" },
+		{ "<leader>fw", "<cmd>Telescope grep_string<cr>", desc = "Find string under cursor in cwd" },
 
 		{
 			"<leader>fc",
