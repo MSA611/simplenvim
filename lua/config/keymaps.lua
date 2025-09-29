@@ -30,6 +30,25 @@ vim.keymap.set("n", "<leader>xl", function()
 	end
 end, { desc = "Location List" })
 
+vim.keymap.set("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
+vim.keymap.set("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
+
+-- diagnostic
+local diagnostic_goto = function(next, severity)
+	local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+	severity = severity and vim.diagnostic.severity[severity] or nil
+	return function()
+		go({ severity = severity })
+	end
+end
+vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+vim.keymap.set("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
+vim.keymap.set("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
+vim.keymap.set("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
+vim.keymap.set("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
+vim.keymap.set("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
+vim.keymap.set("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
+
 -- lazy
 vim.keymap.set("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
@@ -95,3 +114,21 @@ vim.keymap.set("n", "<leader>bo", "<cmd>%bd|e#|bd#<cr>", { desc = "Delete Other 
 
 -- Keymap to open Mason
 vim.keymap.set("n", "<leader>cm", "<cmd>Mason<cr>", { desc = "Open Mason" })
+
+--for git browse
+vim.keymap.set({ "n", "x" }, "<leader>gB", function()
+	local filepath = vim.fn.expand("%")
+	local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+	local origin_url = vim.fn.systemlist("git config --get remote.origin.url")[1]
+	if origin_url:match("^https?://") then
+		origin_url = origin_url:gsub("%.git$", ""):gsub("git@github%.com:", "https://github.com/")
+	elseif origin_url:match("git@") then
+		origin_url = origin_url:gsub("git@", "https://"):gsub(":", "/")
+	end
+	local relative_path = filepath:gsub("^" .. git_root .. "/", "")
+	local branch = vim.fn.systemlist("git rev-parse --abbrev-ref HEAD")[1]
+	local url = string.format("%s/blob/%s/%s", origin_url, branch, relative_path)
+	vim.fn.jobstart({ "xdg-open", url }, { detach = true })
+end, { desc = "Open current file on GitHub" })
+
+--for lsp keymaps

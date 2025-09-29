@@ -1,213 +1,233 @@
+-- return {
+-- 	{
+-- 		"neovim/nvim-lspconfig",
+-- 		event = { "BufReadPre", "BufNewFile" },
+-- 		cmd = "Mason",
+-- 		dependencies = {
+-- 			{
+-- 				"williamboman/mason.nvim",
+-- 				config = true,
+-- 				opts = {
+-- 					ui = {
+-- 						icons = {
+-- 							package_pending = " ",
+-- 							package_installed = "󰄳 ",
+-- 							package_uninstalled = " ",
+-- 						},
+-- 					},
+-- 				},
+-- 			},
+-- 			"williamboman/mason-lspconfig.nvim",
+-- 			"WhoIsSethDaniel/mason-tool-installer.nvim",
+-- 		},
+-- 		config = function()
+-- 			-- LSP Attach autocmd for document highlights
+-- 			vim.api.nvim_create_autocmd("LspAttach", {
+-- 				group = vim.api.nvim_create_augroup("OnLspAttach", { clear = true }),
+-- 				callback = function(event)
+-- 					local client = vim.lsp.get_client_by_id(event.data.client_id)
+-- 					if client and client.server_capabilities.documentHighlightProvider then
+-- 						local highlight_augroup = vim.api.nvim_create_augroup("OnLspHighlight", { clear = false })
+-- 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+-- 							buffer = event.buf,
+-- 							group = highlight_augroup,
+-- 							callback = vim.lsp.buf.document_highlight,
+-- 						})
+-- 						vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+-- 							buffer = event.buf,
+-- 							group = highlight_augroup,
+-- 							callback = vim.lsp.buf.clear_references,
+-- 						})
+-- 						vim.api.nvim_create_autocmd("LspDetach", {
+-- 							group = vim.api.nvim_create_augroup("OnLspDetach", { clear = true }),
+-- 							callback = function(event2)
+-- 								vim.lsp.buf.clear_references()
+-- 								vim.api.nvim_clear_autocmds({ group = "OnLspHighlight", buffer = event2.buf })
+-- 							end,
+-- 						})
+-- 					end
+-- 				end,
+-- 			})
+--
+-- 			local lspconfig = require("lspconfig")
+-- 			local default_capabilities = require("cmp_nvim_lsp").default_capabilities()
+--
+-- 			-- Dart LSP Setup
+-- 			lspconfig.dartls.setup({
+-- 				cmd = { "dart", "language-server", "--protocol=lsp" },
+-- 				filetypes = { "dart" },
+-- 				init_options = {
+-- 					closingLabels = true,
+-- 					flutterOutline = true,
+-- 					onlyAnalyzeProjectsWithOpenFiles = true,
+-- 					outline = true,
+-- 					suggestFromUnimportedLibraries = true,
+-- 				},
+-- 				settings = {
+-- 					dart = {
+-- 						completeFunctionCalls = true,
+-- 						showTodos = true,
+-- 					},
+-- 				},
+-- 			})
+--
+-- 			local servers = {
+-- 				lua_ls = {
+-- 					capabilities = default_capabilities,
+-- 					settings = {
+-- 						Lua = {
+-- 							diagnostics = { globals = { "vim" } },
+-- 							workspace = {
+-- 								library = {
+-- 									[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+-- 									[vim.fn.stdpath("config") .. "/lua"] = true,
+-- 								},
+-- 							},
+-- 						},
+-- 					},
+-- 				},
+-- 				vuels = { filetypes = { "vue" } },
+-- 				jdtls = { filetypes = { "java" } },
+-- 				clangd = { filetypes = { "c", "cpp" } },
+-- 				gopls = {},
+-- 				pyright = {},
+-- 				rust_analyzer = {},
+-- 			}
+--
+-- 			require("mason").setup()
+--
+-- 			local ensure_installed = vim.tbl_keys(servers)
+-- 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+--
+-- 			require("mason-lspconfig").setup({
+-- 				handlers = {
+-- 					function(server_name)
+-- 						local server_config = servers[server_name] or {}
+-- 						server_config.capabilities =
+-- 							vim.tbl_deep_extend("force", {}, default_capabilities, server_config.capabilities or {})
+-- 						lspconfig[server_name].setup(server_config)
+-- 					end,
+-- 				},
+-- 			})
+-- 		end,
+-- 	},
+-- }
+--
+--perplexity generated
+
 return {
-	"neovim/nvim-lspconfig",
-	event = { "BufReadPre", "BufNewFile" },
-	dependencies = {
-		"hrsh7th/cmp-nvim-lsp",
-		{ "antosha417/nvim-lsp-file-operations", config = true },
-		{ "folke/neodev.nvim", opts = {} },
-	},
-	config = function()
-		local cmp_nvim_lsp = require("cmp_nvim_lsp")
-		local keymap = vim.keymap
-
-		vim.api.nvim_create_autocmd("LspAttach", {
-			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-			callback = function(ev)
-				local opts = { buffer = ev.buf, silent = true }
-
-				-- Load LazyVim default LSP keymaps
-				-- local lazy_keys = require("lazyvim.plugins.lsp.keymaps").get()
-				-- for _, key in ipairs(lazy_keys) do
-				-- 	local mode = key.mode or "n"
-				-- 	keymap.set(
-				-- 		mode,
-				-- 		key[1],
-				-- 		key[2],
-				-- 		vim.tbl_extend("force", { buffer = ev.buf, silent = true, desc = key.desc }, key.opts or {})
-				-- 	)
-				-- end
-
-				-- LSP Info
-				keymap.set("n", "<leader>cl", "<cmd>LspInfo<cr>", vim.tbl_extend("force", opts, { desc = "Lsp Info" }))
-
-				-- Navigation
-				keymap.set(
-					"n",
-					"gd",
-					"<cmd>FzfLua lsp_definitions jump1=true ignore_current_line=true<cr>",
-					vim.tbl_extend("force", opts, { desc = "Goto Definition" })
-				)
-				keymap.set(
-					"n",
-					"gr",
-					"<cmd>FzfLua lsp_references jump1=true ignore_current_line=true<cr>",
-					vim.tbl_extend("force", opts, { desc = "References", nowait = true })
-				)
-				keymap.set(
-					"n",
-					"gI",
-					"<cmd>FzfLua lsp_implementations jump1=true ignore_current_line=true<cr>",
-					vim.tbl_extend("force", opts, { desc = "Goto Implementation" })
-				)
-				keymap.set(
-					"n",
-					"gy",
-					"<cmd>FzfLua lsp_typedefs jump1=true ignore_current_line=true<cr>",
-					vim.tbl_extend("force", opts, { desc = "Goto T[y]pe Definition" })
-				)
-				keymap.set(
-					"n",
-					"gD",
-					vim.lsp.buf.declaration,
-					vim.tbl_extend("force", opts, { desc = "Goto Declaration" })
-				)
-
-				-- Hover and Help
-				keymap.set("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover" }))
-				keymap.set(
-					"n",
-					"gK",
-					vim.lsp.buf.signature_help,
-					vim.tbl_extend("force", opts, { desc = "Signature Help" })
-				)
-				keymap.set(
-					"i",
-					"<c-k>",
-					vim.lsp.buf.signature_help,
-					vim.tbl_extend("force", opts, { desc = "Signature Help" })
-				)
-
-				-- Code Actions
-				keymap.set(
-					{ "n", "v" },
-					"<leader>ca",
-					vim.lsp.buf.code_action,
-					vim.tbl_extend("force", opts, { desc = "Code Action" })
-				)
-				keymap.set(
-					{ "n", "v" },
-					"<leader>cc",
-					vim.lsp.codelens.run,
-					vim.tbl_extend("force", opts, { desc = "Run Codelens" })
-				)
-				keymap.set(
-					"n",
-					"<leader>cC",
-					vim.lsp.codelens.refresh,
-					vim.tbl_extend("force", opts, { desc = "Refresh & Display Codelens" })
-				)
-
-				-- Rename
-				keymap.set("n", "<leader>cr", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename" }))
-
-				-- Source Action
-				keymap.set("n", "<leader>cA", function()
-					vim.lsp.buf.code_action({
-						context = {
-							only = { "source" },
-							diagnostics = {},
+	{
+		"neovim/nvim-lspconfig",
+		event = { "BufReadPre", "BufNewFile" },
+		cmd = "Mason",
+		dependencies = {
+			{
+				"williamboman/mason.nvim",
+				config = true,
+				opts = {
+					ui = {
+						icons = {
+							package_installed = "✓",
+							package_pending = "➜",
+							package_uninstalled = "✗",
 						},
-					})
-				end, vim.tbl_extend("force", opts, { desc = "Source Action" }))
-
-				-- Diagnostics
-				keymap.set(
-					"n",
-					"<leader>D",
-					"<cmd>Telescope diagnostics bufnr=0<CR>",
-					vim.tbl_extend("force", opts, { desc = "Buffer Diagnostics" })
-				)
-				keymap.set(
-					"n",
-					"<leader>d",
-					vim.diagnostic.open_float,
-					vim.tbl_extend("force", opts, { desc = "Line Diagnostics" })
-				)
-				keymap.set(
-					"n",
-					"[d",
-					vim.diagnostic.goto_prev,
-					vim.tbl_extend("force", opts, { desc = "Prev Diagnostic" })
-				)
-				keymap.set(
-					"n",
-					"]d",
-					vim.diagnostic.goto_next,
-					vim.tbl_extend("force", opts, { desc = "Next Diagnostic" })
-				)
-
-				-- LSP Restart
-				keymap.set(
-					"n",
-					"<leader>rs",
-					":LspRestart<CR>",
-					vim.tbl_extend("force", opts, { desc = "Restart LSP" })
-				)
-			end,
-		})
-
-		-- Setup capabilities for LSP servers with cmp-nvim-lsp
-		local capabilities = cmp_nvim_lsp.default_capabilities()
-
-		-- Configure diagnostic signs
-		vim.diagnostic.config({
-			signs = {
-				severity = {
-					min = vim.diagnostic.severity.ERROR,
-				},
-				text = {
-					[vim.diagnostic.severity.ERROR] = " ",
-					[vim.diagnostic.severity.WARN] = " ",
-					[vim.diagnostic.severity.HINT] = "󰠠 ",
-					[vim.diagnostic.severity.INFO] = " ",
+					},
 				},
 			},
-		})
+			"williamboman/mason-lspconfig.nvim",
+			"WhoIsSethDaniel/mason-tool-installer.nvim",
+		},
+		config = function()
+			-- LSP Attach autocmd for document highlights
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("OnLspAttach", { clear = true }),
+				callback = function(event)
+					local client = vim.lsp.get_client_by_id(event.data.client_id)
+					if client and client.server_capabilities.documentHighlightProvider then
+						local highlight_augroup = vim.api.nvim_create_augroup("OnLspHighlight", { clear = false })
+						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+							buffer = event.buf,
+							group = highlight_augroup,
+							callback = vim.lsp.buf.document_highlight,
+						})
+						vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+							buffer = event.buf,
+							group = highlight_augroup,
+							callback = vim.lsp.buf.clear_references,
+						})
+						vim.api.nvim_create_autocmd("LspDetach", {
+							group = vim.api.nvim_create_augroup("OnLspDetach", { clear = true }),
+							callback = function(event2)
+								vim.lsp.buf.clear_references()
+								vim.api.nvim_clear_autocmds({ group = "OnLspHighlight", buffer = event2.buf })
+							end,
+						})
+					end
+				end,
+			})
 
-		-- Apply capabilities to all servers
-		vim.lsp.config("*", {
-			capabilities = capabilities,
-		})
+			local default_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-		-- Example server specific configurations
-		vim.lsp.config("svelte", {
-			on_attach = function(client, bufnr)
-				vim.api.nvim_create_autocmd("BufWritePost", {
-					pattern = { "*.js", "*.ts" },
-					callback = function(ctx)
-						client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
+			-- Dart LSP config unchanged, just replace setup with new api:
+			local dartls_config = {
+				cmd = { "dart", "language-server", "--protocol=lsp" },
+				filetypes = { "dart" },
+				init_options = {
+					closingLabels = true,
+					flutterOutline = true,
+					onlyAnalyzeProjectsWithOpenFiles = true,
+					outline = true,
+					suggestFromUnimportedLibraries = true,
+				},
+				settings = {
+					dart = {
+						completeFunctionCalls = true,
+						showTodos = true,
+					},
+				},
+			}
+			vim.lsp.config("dartls", dartls_config)
+			vim.lsp.enable("dartls")
+
+			local servers = {
+				lua_ls = {
+					capabilities = default_capabilities,
+					settings = {
+						Lua = {
+							diagnostics = { globals = { "vim" } },
+							workspace = {
+								library = {
+									[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+									[vim.fn.stdpath("config") .. "/lua"] = true,
+								},
+							},
+						},
+					},
+				},
+				vuels = { filetypes = { "vue" } },
+				jdtls = { filetypes = { "java" } },
+				clangd = { filetypes = { "c", "cpp" } },
+				gopls = {},
+				pyright = {},
+				rust_analyzer = {},
+			}
+
+			require("mason").setup()
+
+			local ensure_installed = vim.tbl_keys(servers)
+			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+
+			require("mason-lspconfig").setup({
+				handlers = {
+					function(server_name)
+						local server_config = servers[server_name] or {}
+						server_config.capabilities =
+							vim.tbl_deep_extend("force", {}, default_capabilities, server_config.capabilities or {})
+						vim.lsp.config(server_name, server_config)
+						vim.lsp.enable(server_name)
 					end,
-				})
-			end,
-		})
-
-		vim.lsp.config("jdtls", {
-			filetypes = { "java" },
-		})
-
-		vim.lsp.config("graphql", {
-			filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
-		})
-
-		vim.lsp.config("emmet_ls", {
-			filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
-		})
-
-		vim.lsp.config("eslint", {
-			filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
-		})
-
-		vim.lsp.config("lua_ls", {
-			settings = {
-				Lua = {
-					diagnostics = {
-						globals = { "vim" },
-					},
-					completion = {
-						callSnippet = "Replace",
-					},
 				},
-			},
-		})
-	end,
+			})
+		end,
+	},
 }

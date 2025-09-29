@@ -14,6 +14,7 @@ return {
 		"saadparwaiz1/cmp_luasnip", -- for autocompletion
 		"rafamadriz/friendly-snippets", -- useful snippets
 		"onsails/lspkind.nvim", -- vs-code like pictograms
+		"hrsh7th/cmp-nvim-lsp", -- Add this line!
 	},
 	config = function()
 		vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
