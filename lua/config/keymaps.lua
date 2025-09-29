@@ -131,4 +131,77 @@ vim.keymap.set({ "n", "x" }, "<leader>gB", function()
 	vim.fn.jobstart({ "xdg-open", url }, { detach = true })
 end, { desc = "Open current file on GitHub" })
 
---for lsp keymaps
+--for keymaps
+
+local M = {}
+
+M.lsp_keymaps = function(ev)
+	local opts = { buffer = ev.buf, silent = true }
+	local keymap = vim.keymap
+
+	-- LSP Info
+	opts.desc = "Lsp Info"
+	keymap.set("n", "<leader>cl", "<cmd>LspInfo<CR>", opts)
+
+	-- Definitions / References
+	opts.desc = "Goto Definition"
+	keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+
+	opts.desc = "References"
+	keymap.set("n", "gr", vim.lsp.buf.references, opts)
+
+	opts.desc = "Goto Implementation"
+	keymap.set("n", "gI", vim.lsp.buf.implementation, opts)
+
+	opts.desc = "Goto Type Definition"
+	keymap.set("n", "gy", vim.lsp.buf.type_definition, opts)
+
+	opts.desc = "Goto Declaration"
+	keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+
+	-- Hover / Signature
+	opts.desc = "Hover"
+	keymap.set("n", "K", vim.lsp.buf.hover, opts)
+
+	opts.desc = "Signature Help"
+	keymap.set("n", "gK", vim.lsp.buf.signature_help, opts)
+	keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts)
+
+	-- Code Actions
+	opts.desc = "Code Action"
+	keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+
+	opts.desc = "Run Codelens"
+	keymap.set({ "n", "v" }, "<leader>cc", vim.lsp.codelens.run, opts)
+
+	opts.desc = "Refresh & Display Codelens"
+	keymap.set("n", "<leader>cC", vim.lsp.codelens.refresh, opts)
+
+	opts.desc = "Rename File"
+	keymap.set("n", "<leader>cR", function()
+		vim.lsp.util.rename_file()
+	end, opts)
+
+	opts.desc = "Rename Symbol"
+	keymap.set("n", "<leader>cr", vim.lsp.buf.rename, opts)
+
+	opts.desc = "Source Action"
+	keymap.set("n", "<leader>cA", vim.lsp.buf.code_action, opts)
+
+	-- References navigation
+	opts.desc = "Next Reference"
+	keymap.set("n", "]]", function()
+		vim.lsp.buf.document_highlight()
+		vim.cmd("normal! ]d")
+	end, opts)
+	keymap.set("n", "<A-n>", "]d", opts)
+
+	opts.desc = "Prev Reference"
+	keymap.set("n", "[[", function()
+		vim.lsp.buf.document_highlight()
+		vim.cmd("normal! [d")
+	end, opts)
+	keymap.set("n", "<A-p>", "[d", opts)
+end
+
+return M
