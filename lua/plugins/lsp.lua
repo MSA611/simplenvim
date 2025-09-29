@@ -37,7 +37,7 @@ return {
 
 					-- Goto
 					vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = event.buf, desc = "Goto Definition" })
-					vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = event.buf, desc = "References" })
+
 					vim.keymap.set(
 						"n",
 						"gI",
