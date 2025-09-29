@@ -54,6 +54,7 @@ return {
 		{ "<leader>fM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
 		{ "<leader>fj", "<cmd>Telescope jumplist<cr>", desc = "Jumplist" },
 		{ "<leader>fm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
+		{ "<leader>fC", "<cmd>Telescope colorscheme<cr>", desc = "Colorscheme" },
 
 		{
 			"<leader>fc",
