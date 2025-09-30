@@ -14,6 +14,8 @@ return {
 		local transform_mod = require("telescope.actions.mt").transform_mod
 
 		local builtin = require("telescope.builtin")
+		local show_hidden = false
+		local respect_gitignore = true
 
 		local trouble = require("trouble")
 		local trouble_telescope = require("trouble.sources.telescope")
@@ -40,6 +42,7 @@ return {
 							actions.close(prompt_bufnr)
 							builtin.find_files({ hidden = show_hidden, no_ignore = not respect_gitignore })
 						end,
+
 						["<A-i>"] = function(prompt_bufnr)
 							respect_gitignore = not respect_gitignore
 							actions.close(prompt_bufnr)
