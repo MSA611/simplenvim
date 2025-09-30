@@ -27,21 +27,6 @@ return {
 
 		telescope.setup({
 			defaults = {
-				--layout optional
-				-- layout_config = {
-				-- 	width = 0.9, -- 100% of the screen width
-				-- 	height = 0.9, -- 100% of the screen height
-				-- 	preview_width = 0.5, -- optional: 50% for preview, adjust as you like
-				-- },
-				layout_strategy = "vertical",
-				layout_config = {
-					height = 0.95, -- take almost full height
-					width = 0.9, -- 100% of the screen width
-					preview_height = 0.5, -- 60% of the space for preview (on top)
-					prompt_position = "bottom", -- prompt stays at the bottom
-				},
-
-				--ends here for the default
 
 				path_display = { "smart" },
 				mappings = {
