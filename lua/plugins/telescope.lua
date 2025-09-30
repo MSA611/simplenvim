@@ -55,7 +55,8 @@ return {
 		{ "<leader>fj", "<cmd>Telescope jumplist<cr>", desc = "Jumplist" },
 		{ "<leader>fm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
 		{ "<leader>fC", "<cmd>Telescope colorscheme<cr>", desc = "Colorscheme" },
-		{ "<leader>fb", "<cmd>Telescope live_grep grep_open_files=true<cr>", desc = "Grep Open Buffers" },
+		{ "<leader>fb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Grep Current Buffer" },
+		{ "<leader>fB", "<cmd>Telescope live_grep grep_open_files=true<cr>", desc = "Grep Open Buffers" },
 
 		{
 			"<leader>fc",
