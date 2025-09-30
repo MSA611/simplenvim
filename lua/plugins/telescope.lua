@@ -69,6 +69,7 @@ return {
 		{ "<leader>fC", "<cmd>Telescope colorscheme<cr>", desc = "Colorscheme" },
 		{ "<leader>fb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Grep Current Buffer" },
 		{ "<leader>fB", "<cmd>Telescope live_grep grep_open_files=true<cr>", desc = "Grep Open Buffers" },
+		{ "<leader>f/", "<cmd>Telescope search_history<cr>", desc = "find Search History" },
 
 		{
 			"<leader>fc",
