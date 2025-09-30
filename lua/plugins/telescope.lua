@@ -13,6 +13,8 @@ return {
 		local actions = require("telescope.actions")
 		local transform_mod = require("telescope.actions.mt").transform_mod
 
+		local builtin = require("telescope.builtin")
+
 		local trouble = require("trouble")
 		local trouble_telescope = require("trouble.sources.telescope")
 
@@ -32,6 +34,16 @@ return {
 						["<C-j>"] = actions.move_selection_next, -- move to next result
 						-- ["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist,
 						-- ["<C-t>"] = trouble_telescope.open,
+						["<A-h>"] = function(prompt_bufnr)
+							show_hidden = not show_hidden
+							actions.close(prompt_bufnr)
+							builtin.find_files({ hidden = show_hidden, no_ignore = not respect_gitignore })
+						end,
+						["<A-i>"] = function(prompt_bufnr)
+							respect_gitignore = not respect_gitignore
+							actions.close(prompt_bufnr)
+							builtin.find_files({ hidden = show_hidden, no_ignore = not respect_gitignore })
+						end,
 					},
 				},
 			},
