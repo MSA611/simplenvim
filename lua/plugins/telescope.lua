@@ -49,17 +49,13 @@ return {
 		{ "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
 		{ "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
 		{ "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
-		{ "<leader>fd", "<cmd>Telescope diagnostics<cr>", desc = "Workspace Diagnostics" },
+		{ "<leader>fd", "<cmd>Telescope diagnostics<cr>", desc = "Buffer diagnostics" },
 		{ "<leader>fw", "<cmd>Telescope grep_string<cr>", desc = "Find string under cursor in cwd" },
 		{ "<leader>fM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
 		{ "<leader>fj", "<cmd>Telescope jumplist<cr>", desc = "Jumplist" },
 		{ "<leader>fm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
 		{ "<leader>fC", "<cmd>Telescope colorscheme<cr>", desc = "Colorscheme" },
-		{
-			"gr",
-			"<cmd>Telescope lsp_references<cr>",
-			desc = "LSP References",
-		},
+		{ "<leader>fb", "<cmd>Telescope live_grep grep_open_files=true<cr>", desc = "Grep Open Buffers" },
 
 		{
 			"<leader>fc",

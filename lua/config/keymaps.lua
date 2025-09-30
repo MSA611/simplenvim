@@ -109,6 +109,28 @@ vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete Buffer" }
 vim.keymap.set("n", "<leader>bD", "<cmd>bd<cr>", { desc = "Delete Buffer and Window" })
 vim.keymap.set("n", "<leader>bo", "<cmd>%bd|e#|bd#<cr>", { desc = "Delete Other Buffers" })
 
+-- Delete Buffers to the Right
+vim.keymap.set("n", "<leader>br", function()
+	local current = vim.fn.bufnr()
+	local buffers = vim.api.nvim_list_bufs()
+	for _, b in ipairs(buffers) do
+		if vim.api.nvim_buf_is_loaded(b) and b > current then
+			vim.api.nvim_buf_delete(b, {})
+		end
+	end
+end, { desc = "Delete Buffers to the Right" })
+
+-- Delete Buffers to the Left
+vim.keymap.set("n", "<leader>bl", function()
+	local current = vim.fn.bufnr()
+	local buffers = vim.api.nvim_list_bufs()
+	for _, b in ipairs(buffers) do
+		if vim.api.nvim_buf_is_loaded(b) and b < current then
+			vim.api.nvim_buf_delete(b, {})
+		end
+	end
+end, { desc = "Delete Buffers to the Left" })
+
 -- Keymap to open Mason
 vim.keymap.set("n", "<leader>cm", "<cmd>Mason<cr>", { desc = "Open Mason" })
 

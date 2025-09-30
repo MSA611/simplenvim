@@ -36,23 +36,29 @@ return {
 					vim.keymap.set("n", "<leader>cl", "<cmd>LspInfo<CR>", { buffer = event.buf, desc = "LSP Info" })
 
 					-- Goto
-					vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = event.buf, desc = "Goto Definition" })
+					vim.keymap.set(
+						"n",
+						"gD",
+						"<cmd>Telescope lsp_definitions<CR>",
+						{ buffer = event.buf, desc = "Goto Definition" }
+					)
 
 					vim.keymap.set(
 						"n",
 						"gI",
-						builtin.lsp_implementations,
+						"<cmd>Telescope lsp_implementations<CR>",
 						{ buffer = event.buf, desc = "Goto Implementation" }
 					)
+					vim.keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
 					vim.keymap.set(
 						"n",
 						"gy",
-						builtin.lsp_type_definitions,
+						"<cmd>Telescope lsp_type_definitions<CR>",
 						{ buffer = event.buf, desc = "Goto Type Definition" }
 					)
 					vim.keymap.set(
 						"n",
-						"gD",
+						"gd",
 						vim.lsp.buf.declaration,
 						{ buffer = event.buf, desc = "Goto Declaration" }
 					)
