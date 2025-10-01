@@ -32,6 +32,10 @@ return {
 
 				path_display = { "smart" },
 				mappings = {
+					n = {
+						["dd"] = require("telescope.actions").delete_buffer,
+						["q"] = require("telescope.actions").close,
+					},
 					i = {
 						["<C-k>"] = actions.move_selection_previous, -- move to prev result
 						["<C-j>"] = actions.move_selection_next, -- move to next result
