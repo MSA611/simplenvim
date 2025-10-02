@@ -14,6 +14,10 @@ opt.autoindent = true -- copy indent from current line when starting new one
 
 opt.wrap = true
 
+opt.backup = false -- to not take backup
+opt.writebackup = false -- to not write a backup file
+opt.swapfile = false -- not to save the file in swap
+opt.scrolloff = 10 -- scroll before 10 line
 -- search settings
 opt.ignorecase = true -- ignore case when searching
 opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
