@@ -71,12 +71,12 @@ return {
 						vim.lsp.buf.signature_help,
 						{ buffer = event.buf, desc = "Signature Help" }
 					)
-					vim.keymap.set(
-						"i",
-						"<C-k>",
-						vim.lsp.buf.signature_help,
-						{ buffer = event.buf, desc = "Signature Help" }
-					)
+					-- vim.keymap.set(
+					-- 	"i",
+					-- 	"<C-k>",
+					-- 	vim.lsp.buf.signature_help,
+					-- 	{ buffer = event.buf, desc = "Signature Help" }
+					-- )
 
 					-- Code actions / rename
 					vim.keymap.set(
