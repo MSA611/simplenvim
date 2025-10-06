@@ -38,18 +38,18 @@ return {
 					-- Goto
 					vim.keymap.set(
 						"n",
-						"gD",
+						"grd",
 						"<cmd>Telescope lsp_definitions<CR>",
 						{ buffer = event.buf, desc = "Goto Definition" }
 					)
 
 					vim.keymap.set(
 						"n",
-						"gI",
+						"gri",
 						"<cmd>Telescope lsp_implementations<CR>",
 						{ buffer = event.buf, desc = "Goto Implementation" }
 					)
-					vim.keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
+					vim.keymap.set("n", "grr", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
 					vim.keymap.set(
 						"n",
 						"gy",
@@ -81,13 +81,13 @@ return {
 					-- Code actions / rename
 					vim.keymap.set(
 						{ "n", "v" },
-						"<leader>ca",
+						"<leader>gra",
 						vim.lsp.buf.code_action,
 						{ buffer = event.buf, desc = "Code Action" }
 					)
 					vim.keymap.set(
 						"n",
-						"<leader>cr",
+						"<leader>grn",
 						vim.lsp.buf.rename,
 						{ buffer = event.buf, desc = "Rename Symbol" }
 					)
@@ -101,7 +101,7 @@ return {
 					)
 					vim.keymap.set(
 						"n",
-						"<leader>ws",
+						"grs",
 						builtin.lsp_dynamic_workspace_symbols,
 						{ buffer = event.buf, desc = "Workspace Symbols" }
 					)

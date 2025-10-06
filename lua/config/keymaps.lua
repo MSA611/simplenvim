@@ -57,33 +57,35 @@ vim.keymap.set({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Do
 vim.keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 vim.keymap.set({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
--- Move to window using the <ctrl> hjkl keys
-vim.keymap.set("n", "<leader>wh", "<C-w>h", { desc = "Go to Left Window", remap = true })
-vim.keymap.set("n", "<leader>wj", "<C-w>j", { desc = "Go to Lower Window", remap = true })
-vim.keymap.set("n", "<leader>wk", "<C-w>k", { desc = "Go to Upper Window", remap = true })
-vim.keymap.set("n", "<leader>wl", "<C-w>l", { desc = "Go to Right Window", remap = true })
-vim.keymap.set("n", "<leader>ww", "<C-w>w", { desc = "Switch to Next Window" })
-vim.keymap.set("n", "<leader>wL", "<C-w>L", { desc = "Move to Far Right Window" })
-vim.keymap.set("n", "<leader>wH", "<C-w>H", { desc = "Move to Far Left Window" })
-vim.keymap.set("n", "<leader>wK", "<C-w>K", { desc = "Move window to top " })
-vim.keymap.set("n", "<leader>wJ", "<C-w>J", { desc = "Move Window Down" })
-vim.keymap.set("n", "<leader>ws", "<C-W>s", { desc = "Split Window Below", remap = true })
-vim.keymap.set("n", "<leader>wv", "<C-W>v", { desc = "Split Window Right", remap = true })
-vim.keymap.set("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })
-vim.keymap.set("n", "<leader>wx", "<C-w>x", { desc = "Swap Current Window with Next" })
+-- WINDOW MANAGEMENT (Leader mirror of <C-w>)
 
--- Resize window using <ctrl> arrow keys
-vim.keymap.set("n", "<leader>we", "<C-w>=", { desc = "Equalize Window Sizes" })
-vim.keymap.set("n", "<C-k>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
-vim.keymap.set("n", "<C-j>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
-vim.keymap.set("n", "<C-l>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
-vim.keymap.set("n", "<C-h>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
--- decreasing and increasing the width by <leader> > and <leader> <
-vim.keymap.set("n", "<leader>w>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
-vim.keymap.set("n", "<leader>w<", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
--- Increase and decreasing the Height of the window
-vim.keymap.set("n", "<leader>w+", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
-vim.keymap.set("n", "<leader>w-", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
+-- Movement between windows
+vim.keymap.set("n", "<leader>wh", "<C-w>h", { desc = "Go to Left Window" }) -- <C-w>h
+vim.keymap.set("n", "<leader>wj", "<C-w>j", { desc = "Go to Lower Window" }) -- <C-w>j
+vim.keymap.set("n", "<leader>wk", "<C-w>k", { desc = "Go to Upper Window" }) -- <C-w>k
+vim.keymap.set("n", "<leader>wl", "<C-w>l", { desc = "Go to Right Window" }) -- <C-w>l
+vim.keymap.set("n", "<leader>ww", "<C-w>w", { desc = "Switch to Next Window" }) -- <C-w>w
+
+-- Move window positions
+vim.keymap.set("n", "<leader>wH", "<C-w>H", { desc = "Move Window Far Left" }) -- <C-w>H
+vim.keymap.set("n", "<leader>wL", "<C-w>L", { desc = "Move Window Far Right" }) -- <C-w>L
+vim.keymap.set("n", "<leader>wK", "<C-w>K", { desc = "Move Window to Top" }) -- <C-w>K
+vim.keymap.set("n", "<leader>wJ", "<C-w>J", { desc = "Move Window to Bottom" }) -- <C-w>J
+
+-- Split windows
+vim.keymap.set("n", "<leader>ws", "<C-w>s", { desc = "Split Window Below" }) -- <C-w>s
+vim.keymap.set("n", "<leader>wv", "<C-w>v", { desc = "Split Window Right" }) -- <C-w>v
+
+-- Close / swap / equalize
+vim.keymap.set("n", "<leader>wc", "<C-w>c", { desc = "Close Current Window" }) -- <C-w>c
+vim.keymap.set("n", "<leader>wx", "<C-w>x", { desc = "Swap Current Window" }) -- <C-w>x
+vim.keymap.set("n", "<leader>w=", "<C-w>=", { desc = "Equalize Window Sizes" }) -- <C-w>=
+
+-- Resize windows
+vim.keymap.set("n", "<leader>w+", "<C-w>+", { desc = "Increase Window Height" }) -- <C-w>+
+vim.keymap.set("n", "<leader>w-", "<C-w>-", { desc = "Decrease Window Height" }) -- <C-w>-
+vim.keymap.set("n", "<leader>w>", "<C-w>>", { desc = "Increase Window Width" }) -- <C-w>>
+vim.keymap.set("n", "<leader>w<", "<C-w><", { desc = "Decrease Window Width" }) -- <C-w><
 
 -- Move Lines
 vim.keymap.set("n", "<A-j>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move Down" })
