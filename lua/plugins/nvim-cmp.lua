@@ -74,10 +74,22 @@ return {
 
 			-- configure lspkind for vs-code like pictograms in completion menu
 			formatting = {
-				format = lspkind.cmp_format({
-					maxwidth = 50,
-					ellipsis_char = "...",
-				}),
+				format = function(entry, vim_item)
+					-- First apply lspkind formatting
+					vim_item = lspkind.cmp_format({
+						maxwidth = 50,
+						ellipsis_char = "...",
+					})(entry, vim_item)
+
+					-- Then highlight color codes
+					if vim_item.kind == "Color" then
+						local color = vim_item.abbr -- HEX/RGB code
+						vim_item.kind = "●" -- show a colored dot
+						vim_item.menu = color -- show the actual color code
+					end
+
+					return vim_item
+				end,
 			},
 		})
 	end,
