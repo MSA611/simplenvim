@@ -30,6 +30,13 @@ return {
 		telescope.setup({
 			defaults = {
 
+				layout_strategy = "bottom_pane",
+				layout_config = {
+					height = 0.99,
+
+					prompt_position = "bottom",
+				},
+
 				path_display = { "smart" },
 				mappings = {
 					n = {
