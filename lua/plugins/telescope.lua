@@ -30,11 +30,9 @@ return {
 		telescope.setup({
 			defaults = {
 
-				layout_strategy = "bottom_pane",
 				layout_config = {
 					height = 0.99,
-
-					prompt_position = "bottom",
+					width = 0.99,
 				},
 
 				path_display = { "smart" },
@@ -43,11 +41,12 @@ return {
 						["dd"] = require("telescope.actions").delete_buffer,
 						["q"] = require("telescope.actions").close,
 					},
+
 					i = {
 						["<C-k>"] = actions.move_selection_previous, -- move to prev result
 						["<C-j>"] = actions.move_selection_next, -- move to next result
-						-- ["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist,
-						-- ["<C-t>"] = trouble_telescope.open,
+						["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist,
+						["<C-t>"] = trouble_telescope.open,
 						["<A-h>"] = function(prompt_bufnr)
 							show_hidden = not show_hidden
 							actions.close(prompt_bufnr)
