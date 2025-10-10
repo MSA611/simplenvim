@@ -1,7 +1,7 @@
 return {
 	{
 		"saghen/blink.cmp",
-        event = "InsertEnter",
+		event = "InsertEnter",
 		-- optional: provides snippets for the snippet source
 		dependencies = { "rafamadriz/friendly-snippets" },
 
@@ -10,7 +10,12 @@ return {
 		---@module 'blink.cmp'
 		---@type blink.cmp.Config
 		opts = {
-			keymap = { preset = "default", ["<CR>"] = { "accept", "fallback" } },
+			keymap = {
+				preset = "default",
+				["<CR>"] = { "accept", "fallback" },
+				["<Tab>"] = { "select_next", "fallback" },
+				["<S-Tab>"] = { "select_prev", "fallback" },
+			},
 
 			appearance = {
 				nerd_font_variant = "mono",
