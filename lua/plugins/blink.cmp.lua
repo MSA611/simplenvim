@@ -1,142 +1,31 @@
-
 return {
-  {
-    "saghen/blink.cmp",
-    version = not vim.g.lazyvim_blink_main and "*",
-    build = vim.g.lazyvim_blink_main and "cargo build --release",
-    opts_extend = {
-      "sources.completion.enabled_providers",
-      "sources.compat",
-      "sources.default",
-    },
-    dependencies = {
-      "rafamadriz/friendly-snippets",
-      {
-        "saghen/blink.compat",
-        optional = true,
-        opts = {},
-        version = not vim.g.lazyvim_blink_main and "*",
-      },
-    },
-    event = { "InsertEnter", "CmdlineEnter" },
+	{
+		"saghen/blink.cmp",
+		-- optional: provides snippets for the snippet source
+		dependencies = { "rafamadriz/friendly-snippets" },
 
-    opts = {
-      snippets = {
-        expand = function(snippet, _)
-          require("luasnip").lsp_expand(snippet)
-        end,
-      },
+		version = "1.*",
 
-      appearance = {
-        use_nvim_cmp_as_default = false,
-        nerd_font_variant = "mono",
-      },
+		---@module 'blink.cmp'
+		---@type blink.cmp.Config
+		opts = {
+			keymap = { preset = "default" },
 
-      completion = {
-        accept = {
-          auto_brackets = {
-            enabled = true,
-          },
-        },
-        menu = {
-          draw = {
-            treesitter = { "lsp" },
-          },
-        },
-        documentation = {
-          auto_show = true,
-          auto_show_delay_ms = 200,
-        },
-        ghost_text = {
-          enabled = vim.g.ai_cmp,
-        },
-      },
+			appearance = {
+				nerd_font_variant = "mono",
+			},
 
-      sources = {
-        compat = {},
-        default = { "lsp", "path", "snippets", "buffer" },
-      },
+			completion = {
+				documentation = { auto_show = true, auto_show_delay_ms = 500 },
+				list = { selection = { preselect = false, auto_insert = true } },
+			},
 
-      cmdline = {
-        enabled = true,
-        keymap = {
-          preset = "cmdline",
-          ["<Right>"] = false,
-          ["<Left>"] = false,
-        },
-        completion = {
-          list = { selection = { preselect = false } },
-          menu = {
-            auto_show = function(ctx)
-              return vim.fn.getcmdtype() == ":"
-            end,
-          },
-          ghost_text = { enabled = true },
-        },
-      },
+			sources = {
+				default = { "lsp", "path", "snippets", "buffer" },
+			},
 
-      keymap = {
-        preset = "enter",
-        ["<C-y>"] = { "select_and_accept" },
-        -- If you want tab completion, you can extend here (optional)
-        -- ["<Tab>"] = { "fallback" },
-      },
-    },
-
-    config = function(_, opts)
-      -- Setup compat sources
-      local enabled = opts.sources.default
-      for _, source in ipairs(opts.sources.compat or {}) do
-        opts.sources.providers = opts.sources.providers or {}
-        opts.sources.providers[source] = vim.tbl_deep_extend(
-          "force",
-          { name = source, module = "blink.compat.source" },
-          opts.sources.providers[source] or {}
-        )
-        if type(enabled) == "table" and not vim.tbl_contains(enabled, source) then
-          table.insert(enabled, source)
-        end
-      end
-
-      -- Add ai_accept to <Tab> key, fallback only (no LazyVim)
-      if not opts.keymap["<Tab>"] then
-        if opts.keymap.preset == "super-tab" then
-          opts.keymap["<Tab>"] = {
-            require("blink.cmp.keymap.presets").get("super-tab")["<Tab>"][1],
-            "fallback",
-          }
-        else
-          opts.keymap["<Tab>"] = { "fallback" }
-        end
-      end
-
-      -- Unset custom prop to pass blink.cmp validation
-      opts.sources.compat = nil
-
-      -- Symbol kinds: remove LazyVim icon usage, use only item default or nil
-      for _, provider in pairs(opts.sources.providers or {}) do
-        if provider.kind then
-          local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
-          local kind_idx = #CompletionItemKind + 1
-
-          CompletionItemKind[kind_idx] = provider.kind
-          CompletionItemKind[provider.kind] = kind_idx
-
-          local transform_items = provider.transform_items
-          provider.transform_items = function(ctx, items)
-            items = transform_items and transform_items(ctx, items) or items
-            for _, item in ipairs(items) do
-              item.kind = kind_idx or item.kind
-              item.kind_icon = item.kind_icon or nil
-            end
-            return items
-          end
-
-          provider.kind = nil
-        end
-      end
-
-      require("blink.cmp").setup(opts)
-    end,
-  }
+			fuzzy = { implementation = "prefer_rust_with_warning" },
+		},
+		opts_extend = { "sources.default" },
+	},
 }

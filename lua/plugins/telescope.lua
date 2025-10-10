@@ -8,6 +8,7 @@ return {
 		"nvim-tree/nvim-web-devicons",
 		"folke/todo-comments.nvim",
 	},
+
 	config = function()
 		local telescope = require("telescope")
 		local actions = require("telescope.actions")
@@ -17,7 +18,7 @@ return {
 		local show_hidden = false
 		local respect_gitignore = true
 
-		local trouble = require("trouble") 
+		local trouble = require("trouble")
 		local trouble_telescope = require("trouble.sources.telescope")
 
 		-- or create your custom action

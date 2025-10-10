@@ -2,63 +2,35 @@ return {
 	"neovim/nvim-lspconfig",
 	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
-		"hrsh7th/cmp-nvim-lsp",
 		{ "antosha417/nvim-lsp-file-operations", config = true },
 		{ "folke/neodev.nvim", opts = {} },
+		-- Make sure blink.cmp is in your plugin list separately
 	},
 	config = function()
-		-- import cmp-nvim-lsp plugin
-		local cmp_nvim_lsp = require("cmp_nvim_lsp")
+		-- Use blink.cmp instead of cmp-nvim-lsp here
+		local blink_cmp = require("blink.cmp")
+		local capabilities = blink_cmp.get_lsp_capabilities()
 
 		local keymap = vim.keymap -- for conciseness
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 			callback = function(ev)
-				-- Buffer local mappings.
-				-- See `:help vim.lsp.*` for documentation on any of the below functions
 				local opts = { buffer = ev.buf, silent = true }
 
-				-- set keybinds
-				opts.desc = "Show LSP references"
-				keymap.set("n", "grr", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
-
-				opts.desc = "Go to declaration"
-				keymap.set("n", "gd", vim.lsp.buf.declaration, opts) -- go to declaration
-
-				opts.desc = "Show LSP definitions"
-				keymap.set("n", "grd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
-
-				opts.desc = "Show LSP implementations"
-				keymap.set("n", "gri", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
-
-				opts.desc = "Show LSP type definitions"
-				keymap.set("n", "grt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
-
-				opts.desc = "See available code actions"
-				keymap.set({ "n", "v" }, "gra", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
-
-				opts.desc = "Smart rename"
-				keymap.set("n", "grn", vim.lsp.buf.rename, opts) -- smart rename
-
-				opts.desc = "Show buffer diagnostics"
-				keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
-
-				opts.desc = "Show line diagnostics"
-				keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
-
-				opts.desc = "Go to previous diagnostic"
-				keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
-
-				opts.desc = "Go to next diagnostic"
-				keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
-
-				opts.desc = "Show documentation for what is under cursor"
-				keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+				keymap.set("n", "grr", "<cmd>Telescope lsp_references<CR>", opts)
+				keymap.set("n", "gd", vim.lsp.buf.declaration, opts)
+				keymap.set("n", "grd", "<cmd>Telescope lsp_definitions<CR>", opts)
+				keymap.set("n", "gri", "<cmd>Telescope lsp_implementations<CR>", opts)
+				keymap.set("n", "grt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
+				keymap.set({ "n", "v" }, "gra", vim.lsp.buf.code_action, opts)
+				keymap.set("n", "grn", vim.lsp.buf.rename, opts)
+				keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
+				keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
+				keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+				keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+				keymap.set("n", "K", vim.lsp.buf.hover, opts)
 			end,
 		})
-
-		-- used to enable autocompletion (assign to every lsp server config)
-		local capabilities = cmp_nvim_lsp.default_capabilities()
 
 		vim.diagnostic.config({
 			signs = {
@@ -71,16 +43,17 @@ return {
 			},
 		})
 
+		-- Use the blink_cmp capabilities for all LSP servers
 		vim.lsp.config("*", {
 			capabilities = capabilities,
 		})
 
+		-- Your server specific configs unchanged ...
 		vim.lsp.config("svelte", {
 			on_attach = function(client, bufnr)
 				vim.api.nvim_create_autocmd("BufWritePost", {
 					pattern = { "*.js", "*.ts" },
 					callback = function(ctx)
-						-- Here use ctx.match instead of ctx.file
 						client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
 					end,
 				})
@@ -102,7 +75,6 @@ return {
 		vim.lsp.config("lua_ls", {
 			settings = {
 				Lua = {
-					-- make the language server recognize "vim" global
 					diagnostics = {
 						globals = { "vim" },
 					},
