@@ -5,27 +5,8 @@ end, { desc = "Format file or selection" })
 
 vim.keymap.set("n", "<Esc>", ":nohlsearch<CR><Esc>", { noremap = true, silent = true }) -- to disable highlighting in esc
 
---quickfix list
-vim.keymap.set("n", "<leader>xq", function()
-	local success, err = pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
-	if not success and err then
-		vim.notify(err, vim.log.levels.ERROR)
-	end
-end, { desc = "Quickfix List" })
-
 -- save file
 vim.keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
-
--- location list
-vim.keymap.set("n", "<leader>xl", function()
-	local success, err = pcall(vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 and vim.cmd.lclose or vim.cmd.lopen)
-	if not success and err then
-		vim.notify(err, vim.log.levels.ERROR)
-	end
-end, { desc = "Location List" })
-
-vim.keymap.set("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
-vim.keymap.set("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
 -- -- diagnostic
 local diagnostic_goto = function(next, severity)
@@ -41,7 +22,6 @@ vim.keymap.set("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error"
 -- lazy
 vim.keymap.set("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
-vim.keymap.set({ "n", "v" }, "y", [["+y]]) --For Copying it into the terminal
 --for floating terminal
 
 vim.keymap.set("n", "<c-_>", "<Cmd>ToggleTerm dir=./ direction=float<CR>") -- floating terminal ctrl+/

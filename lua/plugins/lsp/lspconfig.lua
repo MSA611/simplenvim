@@ -4,7 +4,6 @@ return {
 	dependencies = {
 		{ "antosha417/nvim-lsp-file-operations", config = true },
 		{ "folke/neodev.nvim", opts = {} },
-		-- Make sure blink.cmp is in your plugin list separately
 	},
 	config = function()
 		-- Use blink.cmp instead of cmp-nvim-lsp here
@@ -30,17 +29,6 @@ return {
 				keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 				keymap.set("n", "K", vim.lsp.buf.hover, opts)
 			end,
-		})
-
-		vim.diagnostic.config({
-			signs = {
-				text = {
-					[vim.diagnostic.severity.ERROR] = " ",
-					[vim.diagnostic.severity.WARN] = " ",
-					[vim.diagnostic.severity.HINT] = "󰠠 ",
-					[vim.diagnostic.severity.INFO] = " ",
-				},
-			},
 		})
 
 		-- Use the blink_cmp capabilities for all LSP servers
@@ -70,6 +58,53 @@ return {
 
 		vim.lsp.config("eslint", {
 			filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
+		})
+
+		-- HTML Language Server
+		vim.lsp.config("html", {
+			filetypes = { "html" },
+			init_options = {
+				provideFormatter = true,
+			},
+		})
+
+		-- CSS Language Server
+		vim.lsp.config("cssls", {
+			filetypes = { "css", "scss", "less" },
+			init_options = {
+				provideFormatter = true,
+			},
+		})
+
+		-- TailwindCSS Language Server
+		vim.lsp.config("tailwindcss", {
+			filetypes = { "html", "css", "scss", "javascriptreact", "typescriptreact", "svelte" },
+			init_options = {
+				userLanguages = {
+					eelixir = "html-eex",
+					eruby = "erb",
+					HTML = "html",
+					htmldjango = "html",
+				},
+			},
+		})
+
+		-- Java Language Server (jdtls)
+		vim.lsp.config("jdtls", {
+			filetypes = { "java" },
+			root_dir = vim.fs.root(0, { "pom.xml", "build.gradle", ".git" }),
+			cmd = { "jdtls" },
+		})
+
+		-- TypeScript / JavaScript Language Server
+		vim.lsp.config("ts_ls", {
+			filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+			root_dir = vim.fs.root(0, { "package.json", "tsconfig.json", "jsconfig.json", ".git" }),
+			settings = {
+				completions = {
+					completeFunctionCalls = true,
+				},
+			},
 		})
 
 		vim.lsp.config("lua_ls", {
