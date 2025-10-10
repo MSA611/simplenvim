@@ -1,4 +1,3 @@
-vim.cmd("let g:netrw_liststyle = 3")
 
 local opt = vim.opt
 
@@ -17,16 +16,11 @@ opt.wrap = true
 opt.backup = false -- to not take backup
 opt.writebackup = false -- to not write a backup file
 opt.swapfile = false -- not to save the file in swap
--- opt.scrolloff = 10 -- scroll before 10 line
 -- search settings
 opt.ignorecase = true -- ignore case when searching
 opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
 
-opt.cursorline = true
-opt.cursorlineopt = "number" -- highlight only the line number
 
--- turn on termguicolors for tokyonight colorscheme to work
--- (have to use iterm2 or any other true color terminal)
 opt.termguicolors = true
 opt.background = "dark" -- colorschemes that can be light or dark will be made dark
 opt.signcolumn = "yes" -- show sign column so that text doesn't shift
@@ -55,3 +49,4 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 	desc = "Highlight yanked text",
 })
+
