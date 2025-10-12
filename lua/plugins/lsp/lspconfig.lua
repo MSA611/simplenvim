@@ -2,15 +2,15 @@ return {
 	"neovim/nvim-lspconfig",
 	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
+		"hrsh7th/cmp-nvim-lsp",
 		{ "antosha417/nvim-lsp-file-operations", config = true },
 		{ "folke/neodev.nvim", opts = {} },
 	},
 	config = function()
-		-- Use blink.cmp instead of cmp-nvim-lsp here
-		local blink_cmp = require("blink.cmp")
-		local capabilities = blink_cmp.get_lsp_capabilities()
+		local lspconfig = require("lspconfig")
+		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
-		local keymap = vim.keymap -- for conciseness
+		local keymap = vim.keymap
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 			callback = function(ev)
@@ -31,12 +31,12 @@ return {
 			end,
 		})
 
-		-- Use the blink_cmp capabilities for all LSP servers
+		local capabilities = cmp_nvim_lsp.default_capabilities()
+
 		vim.lsp.config("*", {
 			capabilities = capabilities,
 		})
 
-		-- Your server specific configs unchanged ...
 		vim.lsp.config("svelte", {
 			on_attach = function(client, bufnr)
 				vim.api.nvim_create_autocmd("BufWritePost", {
