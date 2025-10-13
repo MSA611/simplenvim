@@ -46,6 +46,10 @@ return {
 					i = {
 						["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist,
 						["<C-t>"] = trouble_telescope.open,
+
+						["<C-k>"] = actions.move_selection_previous,
+						["<C-j>"] = actions.move_selection_next,
+
 						["<A-h>"] = function(prompt_bufnr)
 							show_hidden = not show_hidden
 							actions.close(prompt_bufnr)
