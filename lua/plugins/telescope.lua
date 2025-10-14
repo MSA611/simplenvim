@@ -40,6 +40,29 @@ return {
 					n = {
 						["dd"] = require("telescope.actions").delete_buffer,
 						["q"] = require("telescope.actions").close,
+
+						["<C-h>"] = function(prompt_bufnr)
+							local state = require("telescope.state")
+							local status = state.get_status(prompt_bufnr)
+							if status.preview_win then
+								vim.api.nvim_win_call(status.preview_win, function()
+									vim.cmd("normal! zH") -- Scroll left
+								end)
+							else
+								vim.cmd("TmuxNavigateLeft")
+							end
+						end,
+						["<C-l>"] = function(prompt_bufnr)
+							local state = require("telescope.state")
+							local status = state.get_status(prompt_bufnr)
+							if status.preview_win then
+								vim.api.nvim_win_call(status.preview_win, function()
+									vim.cmd("normal! zL") -- Scroll right
+								end)
+							else
+								vim.cmd("TmuxNavigateRight")
+							end
+						end,
 					},
 
 					i = {
@@ -57,6 +80,35 @@ return {
 							respect_gitignore = not respect_gitignore
 							actions.close(prompt_bufnr)
 							builtin.find_files({ hidden = show_hidden, no_ignore = not respect_gitignore })
+						end,
+
+						["<C-h>"] = function(prompt_bufnr)
+							local state = require("telescope.state")
+							local status = state.get_status(prompt_bufnr)
+							-- Check if we're in a Telescope picker with preview
+							if status.preview_win then
+								-- Scroll preview LEFT (move content to the right)
+								vim.api.nvim_win_call(status.preview_win, function()
+									vim.cmd("normal! zH") -- Scroll left (content moves right)
+								end)
+							else
+								-- Use tmux navigator
+								vim.cmd("TmuxNavigateLeft")
+							end
+						end,
+						["<C-l>"] = function(prompt_bufnr)
+							local state = require("telescope.state")
+							local status = state.get_status(prompt_bufnr)
+							-- Check if we're in a Telescope picker with preview
+							if status.preview_win then
+								-- Scroll preview RIGHT (move content to the left)
+								vim.api.nvim_win_call(status.preview_win, function()
+									vim.cmd("normal! zL") -- Scroll right (content moves left)
+								end)
+							else
+								-- Use tmux navigator
+								vim.cmd("TmuxNavigateRight")
+							end
 						end,
 					},
 				},
