@@ -5,6 +5,8 @@ end, { desc = "Format file or selection" })
 
 vim.keymap.set("n", "<Esc>", ":nohlsearch<CR><Esc>", { noremap = true, silent = true }) -- to disable highlighting in esc
 
+vim.keymap.set("i", "jk", "<Esc>") -- Use jk to enter Into <Esc> mode in insert mode
+
 -- save file
 vim.keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
