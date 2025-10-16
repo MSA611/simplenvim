@@ -201,7 +201,9 @@ return {
 				cssls = {},
 				html = {},
 				emmet_ls = {},
-				ts_ls = {},
+				tsserver = {
+					filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+				},
 				vuels = { filetypes = { "vue" } },
 				jdtls = { filetypes = { "java" } },
 				clangd = { filetypes = { "c", "cpp" } },
@@ -212,6 +214,9 @@ return {
 
 			require("mason").setup()
 			local ensure_installed = vim.tbl_keys(servers)
+			vim.list_extend(ensure_installed, {
+				"typescript-language-server",
+			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
 			require("mason-lspconfig").setup({
