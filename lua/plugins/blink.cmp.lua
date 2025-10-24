@@ -38,6 +38,9 @@ return {
 					},
 				},
 				menu = {
+					draw = {
+						treesitter = { "lsp" },
+					},
 					min_width = 30,
 					max_height = 30,
 				},
