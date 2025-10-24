@@ -32,6 +32,11 @@ return {
 			},
 
 			completion = {
+				accept = {
+					auto_brackets = {
+						enabled = false,
+					},
+				},
 				menu = {
 					min_width = 30,
 					max_height = 30,
