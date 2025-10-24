@@ -30,12 +30,18 @@ return {
     completion = {
       accept = {
         auto_brackets = {
-          enabled = true,
+          enabled = false,
         },
       },
       menu = {
         draw = {
           treesitter = { "lsp" },
+        },
+      },
+      list = {
+        selection = {
+          preselect = false,
+          auto_insert = false,
         },
       },
       documentation = {
@@ -88,4 +94,3 @@ return {
     blink.setup(opts)
   end,
 }
-
