@@ -5,18 +5,23 @@ end, { desc = "Format file or selection" })
 
 vim.keymap.set("n", "<Esc>", ":nohlsearch<CR><Esc>", { noremap = true, silent = true }) -- to disable highlighting in esc
 
-vim.keymap.set("i", "jk", "<Esc>")
-
 -- -- diagnostic
 local diagnostic_goto = function(next, severity)
-	local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-	severity = severity and vim.diagnostic.severity[severity] or nil
 	return function()
-		go({ severity = severity })
+		vim.diagnostic.jump({
+			count = (next and 1 or -1) * vim.v.count1,
+			severity = severity and vim.diagnostic.severity[severity] or nil,
+			float = true,
+		})
 	end
 end
+vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+vim.keymap.set("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
+vim.keymap.set("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
 vim.keymap.set("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
 vim.keymap.set("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
+vim.keymap.set("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
+vim.keymap.set("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 
 -- lazy
 vim.keymap.set("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
