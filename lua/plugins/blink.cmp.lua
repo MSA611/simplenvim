@@ -1,101 +1,50 @@
 return {
+	{
+		"saghen/blink.cmp",
+		dependencies = { "rafamadriz/friendly-snippets" },
 
-	"saghen/blink.cmp",
-	version = "1.*", -- stable release
-	build = "cargo build --release",
-	dependencies = {
-		"rafamadriz/friendly-snippets",
-		{
-			"saghen/blink.compat",
-			optional = true,
-			opts = {},
-			version = "*",
-		},
-	},
+		version = "1.*",
 
-	event = { "InsertEnter", "CmdlineEnter" },
-
-	opts = {
-		snippets = {
-			expand = function(args)
-				require("luasnip").lsp_expand(args.body)
-			end,
-			preset = "default",
-		},
-
-		appearance = {
-			use_nvim_cmp_as_default = false,
-			nerd_font_variant = "mono",
-		},
-
-		completion = {
-			accept = {
-				auto_brackets = {
-					enabled = false,
-				},
-			},
-
-			menu = {
-				min_width = 20,
-				max_height = 20,
-				draw = {
-					treesitter = { "lsp" },
-				},
-			},
-			list = {
-				selection = {
-					preselect = false,
-					auto_insert = true,
-				},
-			},
-			documentation = {
-				auto_show = true,
-				auto_show_delay_ms = 200,
-			},
-			ghost_text = {
-				enabled = true,
-			},
-		},
-
-		sources = {
-			compat = {},
-			default = { "lsp", "path", "snippets", "buffer" },
-		},
-
-		cmdline = {
-			enabled = true,
+		---@module 'blink.cmp'
+		---@type blink.cmp.Config
+		opts = {
 			keymap = {
-				preset = "cmdline",
-				["<Right>"] = false,
-				["<Left>"] = false,
+				preset = "default",
+				["<CR>"] = { "accept", "fallback" },
+				["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+				["<C-e>"] = { "hide", "fallback" },
+				["<C-y>"] = { "select_and_accept", "fallback" },
+
+				["<Up>"] = { "select_prev", "fallback" },
+				["<Down>"] = { "select_next", "fallback" },
+				["<C-k>"] = { "select_prev", "fallback_to_mappings" },
+				["<C-j>"] = { "select_next", "fallback_to_mappings" },
+
+				["<C-b>"] = { "scroll_documentation_up", "fallback" },
+				["<C-f>"] = { "scroll_documentation_down", "fallback" },
+
+				["<Tab>"] = { "snippet_forward", "fallback" },
+				["<S-Tab>"] = { "snippet_backward", "fallback" },
 			},
+
+			appearance = {
+				nerd_font_variant = "mono",
+			},
+
 			completion = {
-				list = { selection = { preselect = false } },
-				menu = {
-					auto_show = function()
-						return vim.fn.getcmdtype() == ":"
-					end,
-				},
 				ghost_text = { enabled = true },
+				documentation = { auto_show = false },
+				list = {
+					selection = { preselect = false, auto_insert = false },
+				},
 			},
-		},
 
-		keymap = {
-			preset = "enter",
-			["<CR>"] = { "select_and_accept", "fallback" },
-			["<C-y>"] = { "select_and_accept" },
-			["<Tab>"] = { "snippet_forward", "fallback" },
-			["<S-Tab>"] = { "snippet_backward", "fallback" },
+			sources = {
+				default = { "lsp", "path", "snippets", "buffer" },
+			},
 
-			["<C-k>"] = { "select_prev", "fallback_to_mappings" },
-			["<C-j>"] = { "select_next", "fallback_to_mappings" },
+			fuzzy = { implementation = "prefer_rust_with_warning" },
 		},
+		opts_extend = { "sources.default" },
 	},
-
-	config = function(_, opts)
-		local blink = require("blink.cmp")
-		-- Remove compat key if it exists to avoid validation errors
-		opts.sources.compat = nil
-		blink.setup(opts)
-	end,
 }
