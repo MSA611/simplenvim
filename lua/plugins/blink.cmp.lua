@@ -1,96 +1,99 @@
 return {
-  "saghen/blink.cmp",
-  version = "1.*", -- stable release
-  build = "cargo build --release",
-  dependencies = {
-    "rafamadriz/friendly-snippets",
-    {
-      "saghen/blink.compat",
-      optional = true,
-      opts = {},
-      version = "*",
-    },
-  },
+	"saghen/blink.cmp",
+	version = "1.*", -- stable release
+	build = "cargo build --release",
+	dependencies = {
+		"rafamadriz/friendly-snippets",
+		{
+			"saghen/blink.compat",
+			optional = true,
+			opts = {},
+			version = "*",
+		},
+	},
 
-  event = { "InsertEnter", "CmdlineEnter" },
+	event = { "InsertEnter", "CmdlineEnter" },
 
-  opts = {
-    snippets = {
-      expand = function(args)
-        require("luasnip").lsp_expand(args.body)
-      end,
-      preset = "default",
-    },
+	opts = {
+		snippets = {
+			expand = function(args)
+				require("luasnip").lsp_expand(args.body)
+			end,
+			preset = "default",
+		},
 
-    appearance = {
-      use_nvim_cmp_as_default = false,
-      nerd_font_variant = "mono",
-    },
+		appearance = {
+			use_nvim_cmp_as_default = false,
+			nerd_font_variant = "mono",
+		},
 
-    completion = {
-      accept = {
-        auto_brackets = {
-          enabled = false,
-        },
-      },
-      menu = {
-        draw = {
-          treesitter = { "lsp" },
-        },
-      },
-      list = {
-        selection = {
-          preselect = false,
-          auto_insert = false,
-        },
-      },
-      documentation = {
-        auto_show = true,
-        auto_show_delay_ms = 200,
-      },
-      ghost_text = {
-        enabled = true,
-      },
-    },
+		completion = {
+			accept = {
+				auto_brackets = {
+					enabled = false,
+				},
+			},
 
-    sources = {
-      compat = {},
-      default = { "lsp", "path", "snippets", "buffer" },
-    },
+			menu = {
+				min_width = 20,
+				max_height = 20,
+				draw = {
+					treesitter = { "lsp" },
+				},
+			},
+			list = {
+				selection = {
+					preselect = false,
+					auto_insert = false,
+				},
+			},
+			documentation = {
+				auto_show = true,
+				auto_show_delay_ms = 200,
+			},
+			ghost_text = {
+				enabled = true,
+			},
+		},
 
-    cmdline = {
-      enabled = true,
-      keymap = {
-        preset = "cmdline",
-        ["<Right>"] = false,
-        ["<Left>"] = false,
-      },
-      completion = {
-        list = { selection = { preselect = false } },
-        menu = {
-          auto_show = function()
-            return vim.fn.getcmdtype() == ":"
-          end,
-        },
-        ghost_text = { enabled = true },
-      },
-    },
+		sources = {
+			compat = {},
+			default = { "lsp", "path", "snippets", "buffer" },
+		},
 
-    keymap = {
-      preset = "enter",
-      ["<C-y>"] = { "select_and_accept" },
-      ["<Tab>"] = { "snippet_forward", "fallback" },
-      ["<S-Tab>"] = { "snippet_backward", "fallback" },
+		cmdline = {
+			enabled = true,
+			keymap = {
+				preset = "cmdline",
+				["<Right>"] = false,
+				["<Left>"] = false,
+			},
+			completion = {
+				list = { selection = { preselect = false } },
+				menu = {
+					auto_show = function()
+						return vim.fn.getcmdtype() == ":"
+					end,
+				},
+				ghost_text = { enabled = true },
+			},
+		},
 
-      ['<C-k>'] = { 'select_prev', 'fallback_to_mappings' },
-      ['<C-j>'] = { 'select_next', 'fallback_to_mappings' },
-    },
-  },
+		keymap = {
+			preset = "enter",
+			["<C-y>"] = { "select_and_accept" },
+			["<Tab>"] = { "snippet_forward", "fallback" },
+			["<S-Tab>"] = { "snippet_backward", "fallback" },
 
-  config = function(_, opts)
-    local blink = require("blink.cmp")
-    -- Remove compat key if it exists to avoid validation errors
-    opts.sources.compat = nil
-    blink.setup(opts)
-  end,
+			["<C-k>"] = { "select_prev", "fallback_to_mappings" },
+			["<C-j>"] = { "select_next", "fallback_to_mappings" },
+		},
+	},
+
+	config = function(_, opts)
+		local blink = require("blink.cmp")
+		-- Remove compat key if it exists to avoid validation errors
+		opts.sources.compat = nil
+		blink.setup(opts)
+	end,
 }
