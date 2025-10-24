@@ -32,6 +32,10 @@ return {
 			},
 
 			completion = {
+				menu = {
+					min_width = 30,
+					max_height = 30,
+				},
 				ghost_text = { enabled = true },
 				documentation = { auto_show = false },
 				list = {
