@@ -1,4 +1,5 @@
 return {
+
 	"saghen/blink.cmp",
 	version = "1.*", -- stable release
 	build = "cargo build --release",
@@ -44,7 +45,7 @@ return {
 			list = {
 				selection = {
 					preselect = false,
-					auto_insert = false,
+					auto_insert = true,
 				},
 			},
 			documentation = {
