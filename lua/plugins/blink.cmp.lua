@@ -51,7 +51,6 @@ return {
 						Operator = "󰆕",
 						TypeParameter = "",
 					},
-					kind_hl_group = "CmpItemKind",
 				},
 				completion = {
 					accept = {
@@ -66,7 +65,7 @@ return {
 								{ "kind" }, -- kind name like "Text"
 							},
 						},
-						min_width = 30,
+						-- min_width = 30,
 						max_height = 30,
 					},
 					ghost_text = { enabled = true },

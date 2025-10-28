@@ -5,8 +5,6 @@ end, { desc = "Format file or selection" })
 
 vim.keymap.set("n", "<Esc>", ":nohlsearch<CR><Esc>", { noremap = true, silent = true }) -- to disable highlighting in esc
 
-vim.keymap.set("i", "jk", "<Esc>") --sets escape mode using jk in insert mode
-
 -- -- diagnostic
 local diagnostic_goto = function(next, severity)
 	return function()
