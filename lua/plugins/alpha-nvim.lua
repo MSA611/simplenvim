@@ -26,7 +26,8 @@ return {
         dashboard.button("<leader>fr", " " .. " Recent files"),
         dashboard.button("<leader>/", " " .. " Find text" ),
         dashboard.button("<leader>fc", " " .. " Config"   ),
-        dashboard.button("s", " " .. " Restore Session", [[<cmd> lua require("persistence").load() <cr>]]),
+        -- dashboard.button("s", " " .. " Restore Session", [[<cmd> lua require("persistence").load() <cr>]]),
+        dashboard.button("<leader>ql", " " .. " Restore Last Session"),
         dashboard.button("l", "󰒲 " .. " Lazy",            "<cmd> Lazy <cr>"),
         dashboard.button("q", " " .. " Quit",            "<cmd> qa <cr>"),
       }
