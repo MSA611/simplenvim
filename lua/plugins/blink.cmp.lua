@@ -66,7 +66,7 @@ return {
 							},
 						},
 						-- min_width = 30,
-						max_height = 30,
+						max_height = 100,
 					},
 					ghost_text = { enabled = true },
 					documentation = { auto_show = true, auto_show_delay_ms = 200 },
